@@ -1,7 +1,18 @@
 body{
     font-family: Barlow;
 }
-
+h3{
+    color: black;
+    font-weight: 600;
+}
+p{
+   color: #5F5F5F;
+   font-weight: 300;
+}
+h2{
+   
+    font-weight: 700;
+}
 /* HEADER (OrderTop) */
 .header-section{
     background-color:#CE2829 ;
@@ -10,9 +21,10 @@ body{
 .header{
     display: flex;
     flex-direction: column;
-    width: 35%;
+    width: 30vw;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 2rem;
     
 }
 .header>img{
@@ -27,14 +39,30 @@ body{
     color: white;
 }
 /* FORM (Order) */
+.price{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.price h2{
+    flex-grow: 1;
+}
+.rate{
+    flex-grow: 0.23;
+}
 .main-section{
-    width: 35%;
+    width: 30vw;
     margin-left: auto;
     margin-right: auto;
 }
 .product-size{
     display: flex;
     flex-direction: column;
+    color:#5F5F5F;
+    font-weight:500
+}
+.product-size>label{
+    padding-bottom:1rem;
 }
 .product-pastry{
     display: flex;
@@ -44,9 +72,64 @@ fieldset {
     display: flex;
     justify-content: space-between;
     border: none; padding: 0;  
-    margin: 0;  
+    max-width: 22vw;
+    margin-bottom: 2rem;
+    
 }
 .additions{
-    display: inline-block;
-    width: 30%;
+    flex-grow: inherit;
+    width: 33%;
+    margin-bottom: 1.2rem;
+}
+.checkbox-label{
+    padding-left: 0.5rem;
+    font-weight: 600;
+    color:#5F5F5F
+}
+.checkbox-container{
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 25vw;
+    margin-bottom: 4rem;
+}
+.product{
+    margin-bottom: 2rem;
+}
+.yildiz{
+    color: #CE2829 ;
+}
+input[type="text"] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 1rem 1rem;
+    font-size: 0.8rem;
+    width: 100%;
+}
+
+.seperator {
+    border: none;
+    border-top: 1px solid #5F5F5F;
+    margin: 2rem auto;
+  }
+  .order-spec{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10rem;
+  }
+  .orderSum-container{
+    display: flex;
+    flex-direction: column;
+  }
+  .orderSum{
+    border: 1px solid #5F5F5F;
+    border-radius: 5px;
+    padding: 1rem 3rem;
+  }
+.orderTotal{
+    display: flex;
+    justify-content: space-between;
+}
+.order-button{
+    width: 100%;
 }
