@@ -17,12 +17,12 @@ export default function Order() {
   const [formData, setFormData] = useState(initialForm);
   const [newPrice, setNewPrice] = useState(price);
   const [additionPrice, setAdditionPrice] = useState(0);
-  const [xTimes, setXTimes] = useState(1);
+  const [xPiece, setxPiece] = useState(1);
   useEffect(() => {
     setAdditionPrice(formData.malzeme.length * 5);
-    const calculatedPrice = price * xTimes + formData.malzeme.length * 5;
+    const calculatedPrice = (price + formData.malzeme.length * 5) * xPiece;
     setNewPrice(calculatedPrice);
-  }, [formData.malzeme, xTimes]);
+  }, [formData.malzeme, xPiece]);
 
   const handleChange = (event) => {
     let { name, value } = event.target;
@@ -58,12 +58,12 @@ export default function Order() {
   };
 
   const handlePricePlus = () => {
-    setXTimes(xTimes + 1);
+    setxPiece(xPiece + 1);
   };
   const handlePriceMinus = () => {
-    setXTimes(xTimes - 1);
-    if (xTimes <= 1) {
-      setXTimes(1);
+    setxPiece(xPiece - 1);
+    if (xPiece <= 1) {
+      setxPiece(1);
     }
   };
   return (
@@ -211,7 +211,7 @@ export default function Order() {
               >
                 -
               </button>
-              <span>{xTimes}</span>
+              <span>{xPiece}</span>
               <button type="button" onClick={handlePricePlus} className="plus">
                 +
               </button>
