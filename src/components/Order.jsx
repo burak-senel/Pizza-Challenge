@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OrderTop from "./OrderTop";
 import { malzemeler } from "./PizzaMalzemeler";
 import axios from "axios";
@@ -11,9 +11,18 @@ const initialForm = {
   name: "",
   note: "",
 };
-
+const price = 85.5;
+//parseFloat(price)
 export default function Order() {
   const [formData, setFormData] = useState(initialForm);
+  const [newPrice, setNewPrice] = useState(price);
+  const [additionPrice, setAdditionPrice] = useState(0);
+  const [xTimes, setXTimes] = useState(1);
+  useEffect(() => {
+    setAdditionPrice(formData.malzeme.length * 5);
+    const calculatedPrice = price * xTimes + formData.malzeme.length * 5;
+    setNewPrice(calculatedPrice);
+  }, [formData.malzeme, xTimes]);
 
   const handleChange = (event) => {
     let { name, value } = event.target;
@@ -21,15 +30,16 @@ export default function Order() {
     setFormData(newState);
   };
   const handleMalzemeler = (event) => {
-    const { value } = event.target;
+    const { value, checked } = event.target;
     let yeniMalzemeler;
-    if (formData.malzeme.includes(value)) {
-      yeniMalzemeler = formData.malzeme.filter((item) => item != value);
-    } else {
+    if (checked) {
       yeniMalzemeler = [...formData.malzeme, value];
+    } else {
+      yeniMalzemeler = formData.malzeme.filter((item) => item !== value);
     }
     setFormData({ ...formData, ["malzeme"]: yeniMalzemeler });
   };
+
   const history = useHistory();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -38,12 +48,23 @@ export default function Order() {
       .post("https://reqres.in/api/pizza", formData)
       .then((response) => {
         console.log("API Response:", response.data);
-
-        history.push("/success");
+        setFormData(initialForm);
+        /*         history.push("/success");
+         */
       })
       .catch((error) => {
         console.error("API Request Error:", error);
       });
+  };
+
+  const handlePricePlus = () => {
+    setXTimes(xTimes + 1);
+  };
+  const handlePriceMinus = () => {
+    setXTimes(xTimes - 1);
+    if (xTimes <= 1) {
+      setXTimes(1);
+    }
   };
   return (
     <>
@@ -54,7 +75,7 @@ export default function Order() {
           <h3>Position Absolute Acı Pizza</h3>
           <div className="price">
             {" "}
-            <h2>85.50₺</h2>
+            <h2>{price}₺</h2>
             <span className="rate">4.9</span>
             <span>(200)</span>
           </div>
@@ -82,6 +103,7 @@ export default function Order() {
                   name="size"
                   value="kucuk"
                   onChange={handleChange}
+                  checked={formData.size == "kucuk"}
                 />
                 Küçük
               </label>
@@ -91,6 +113,7 @@ export default function Order() {
                   name="size"
                   value="orta"
                   onChange={handleChange}
+                  checked={formData.size == "orta"}
                 />
                 Orta
               </label>
@@ -100,6 +123,7 @@ export default function Order() {
                   name="size"
                   value="buyuk"
                   onChange={handleChange}
+                  checked={formData.size == "buyuk"}
                 />
                 Büyük
               </label>
@@ -109,7 +133,12 @@ export default function Order() {
               <h3 htmlFor="pastry">
                 Hamur Seç<span className="yildiz"> *</span>
               </h3>
-              <select id="pastry" name="pastry" onChange={handleChange}>
+              <select
+                value={formData.pastry}
+                id="pastry"
+                name="pastry"
+                onChange={handleChange}
+              >
                 <option value="" selected disabled hidden>
                   Hamur Kalınlığı
                 </option>
@@ -135,6 +164,7 @@ export default function Order() {
                     name="malzeme"
                     onChange={handleMalzemeler}
                     value={malzeme}
+                    checked={formData.malzeme.includes(malzeme)}
                   />
 
                   <label className="checkbox-label" htmlFor={`malzeme${index}`}>
@@ -154,6 +184,7 @@ export default function Order() {
                 id="name"
                 placeholder="Siparişini teslim edebilmemiz için adını gir"
                 onChange={handleChange}
+                value={formData.name}
               />
             </div>
 
@@ -166,15 +197,24 @@ export default function Order() {
                 id="note"
                 placeholder="Siparişine eklemek istediğin bir not var mı?"
                 onChange={handleChange}
+                value={formData.note}
               />
             </div>
           </section>
           <div className="seperator"></div>
           <section className="order-spec">
             <div className="orderCount">
-              <button className="minus">-</button>
-              <span>sayı</span>
-              <button className="plus">+</button>
+              <button
+                type="button"
+                onClick={handlePriceMinus}
+                className="minus"
+              >
+                -
+              </button>
+              <span>{xTimes}</span>
+              <button type="button" onClick={handlePricePlus} className="plus">
+                +
+              </button>
             </div>
             <div className="orderSum-container">
               {" "}
@@ -186,9 +226,9 @@ export default function Order() {
                     <p style={{ color: "#CE2829", fontWeight: 500 }}>Toplam</p>
                   </div>
                   <div className="orderTotal-right">
-                    <p style={{ fontWeight: 500 }}>addition total</p>
+                    <p style={{ fontWeight: 500 }}>{additionPrice}₺</p>
                     <p style={{ color: "#CE2829", fontWeight: 500 }}>
-                      genel total
+                      {newPrice}₺
                     </p>
                   </div>
                 </div>
