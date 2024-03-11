@@ -58,6 +58,10 @@ h2{
     margin-left: auto;
     margin-right: auto;
 }
+.product>p{
+    word-spacing: 1px;
+    line-height: 1.5;
+}
 .product-size{
     display: flex;
     flex-direction: column;
@@ -129,7 +133,7 @@ input[type="text"] {
     flex-direction: column;
   }
   .orderSum{
-    border: 1px solid #5F5F5F;
+    border: 1px solid #ccc;
     border-radius: 5px;
     padding: 1rem 3rem;
   }
@@ -141,6 +145,23 @@ input[type="text"] {
     padding-right: 5rem;
 }
 
+.orderCount span{
+    border: 1px solid #ccc;
+    padding: 0.8rem 0.3rem;
+    border-radius: 5px;
+}
+.minus{    padding: 1rem;
+    border-radius: 5px 0px 0px 5px; background-color: #FDC913;border: 0px;
+}
+.plus{
+    padding: 1rem;
+    border-radius: 0px 5px 5px 0px; background-color: #FDC913;border: 0px;
+}
 .order-button{
     width: 100%;
+    background-color: #FDC913;
+    padding: 1rem;
+    border-radius: 5px;
+    border: 0px;
+    font-weight:  600px;
 }

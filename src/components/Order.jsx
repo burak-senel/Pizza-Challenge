@@ -28,10 +28,7 @@ export default function Order() {
     } else {
       yeniMalzemeler = [...formData.malzeme, value];
     }
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      malzeme: yeniMalzemeler,
-    }));
+    setFormData({ ...formData, ["malzeme"]: yeniMalzemeler });
   };
   const history = useHistory();
   const handleSubmit = (event) => {
@@ -124,9 +121,11 @@ export default function Order() {
           </fieldset>
           <div className="additions-container">
             <h3>Ek Malzemeler</h3>
+
             <p>
               En az 4, en fazla 10 malzeme seçebilirsiniz. (Her biri ekstra 5₺)
             </p>
+
             <div className="checkbox-container">
               {malzemeler.map((malzeme, index) => (
                 <div className="additions" key={index}>
@@ -137,6 +136,7 @@ export default function Order() {
                     onChange={handleMalzemeler}
                     value={malzeme}
                   />
+
                   <label className="checkbox-label" htmlFor={`malzeme${index}`}>
                     {malzeme}
                   </label>
@@ -156,6 +156,7 @@ export default function Order() {
                 onChange={handleChange}
               />
             </div>
+
             <div className="note">
               {" "}
               <h3>Sipariş Notu</h3>
@@ -171,9 +172,9 @@ export default function Order() {
           <div className="seperator"></div>
           <section className="order-spec">
             <div className="orderCount">
-              <button>-</button>
+              <button className="minus">-</button>
               <span>sayı</span>
-              <button>+</button>
+              <button className="plus">+</button>
             </div>
             <div className="orderSum-container">
               {" "}
@@ -181,12 +182,14 @@ export default function Order() {
                 <h3>Sipariş Toplamı</h3>
                 <div className="orderTotal">
                   <div className="orderTotal-left">
-                    <p>Seçimler</p>
-                    <p>Toplam</p>
+                    <p style={{ fontWeight: 500 }}>Seçimler</p>
+                    <p style={{ color: "#CE2829", fontWeight: 500 }}>Toplam</p>
                   </div>
                   <div className="orderTotal-right">
-                    <p>addition total</p>
-                    <p>genel total</p>
+                    <p style={{ fontWeight: 500 }}>addition total</p>
+                    <p style={{ color: "#CE2829", fontWeight: 500 }}>
+                      genel total
+                    </p>
                   </div>
                 </div>
               </div>
