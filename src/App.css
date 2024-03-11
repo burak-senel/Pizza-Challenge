@@ -38,6 +38,9 @@ h2{
     text-decoration: none;
     color: white;
 }
+.navigate{
+    font-size: small;
+}
 /* FORM (Order) */
 .price{
     display: flex;
@@ -76,13 +79,16 @@ fieldset {
     margin-bottom: 2rem;
     
 }
+.additions-container{
+    width: 100%;
+}
 .additions{
     flex-grow: inherit;
     width: 33%;
     margin-bottom: 1.2rem;
 }
 .checkbox-label{
-    padding-left: 0.5rem;
+    padding-left: 0.22rem;
     font-weight: 600;
     color:#5F5F5F
 }
@@ -90,7 +96,7 @@ fieldset {
     margin-top: 1.5rem;
     display: flex;
     flex-wrap: wrap;
-    max-width: 25vw;
+    max-width: 100%;
     margin-bottom: 4rem;
 }
 .product{
@@ -99,18 +105,19 @@ fieldset {
 .yildiz{
     color: #CE2829 ;
 }
+
 input[type="text"] {
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 1rem 1rem;
     font-size: 0.8rem;
-    width: 100%;
+    width: 92.5%;
 }
 
 .seperator {
-    border: none;
     border-top: 1px solid #5F5F5F;
     margin: 2rem auto;
+    width: 100%;
   }
   .order-spec{
     display: flex;
@@ -130,6 +137,10 @@ input[type="text"] {
     display: flex;
     justify-content: space-between;
 }
+.orderTotal-left{
+    padding-right: 5rem;
+}
+
 .order-button{
     width: 100%;
 }

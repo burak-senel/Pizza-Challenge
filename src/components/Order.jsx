@@ -1,7 +1,53 @@
+import { useState } from "react";
 import OrderTop from "./OrderTop";
 import { malzemeler } from "./PizzaMalzemeler";
+import axios from "axios";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+
+const initialForm = {
+  size: "",
+  pastry: "",
+  malzeme: [],
+  name: "",
+  note: "",
+};
 
 export default function Order() {
+  const [formData, setFormData] = useState(initialForm);
+
+  const handleChange = (event) => {
+    let { name, value } = event.target;
+    const newState = { ...formData, [name]: value };
+    setFormData(newState);
+  };
+  const handleMalzemeler = (event) => {
+    const { value } = event.target;
+    let yeniMalzemeler;
+    if (formData.malzeme.includes(value)) {
+      yeniMalzemeler = formData.malzeme.filter((item) => item != value);
+    } else {
+      yeniMalzemeler = [...formData.malzeme, value];
+    }
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      malzeme: yeniMalzemeler,
+    }));
+  };
+  const history = useHistory();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    axios
+      .post("https://reqres.in/api/pizza", formData)
+      .then((response) => {
+        console.log("API Response:", response.data);
+
+        history.push("/success");
+      })
+      .catch((error) => {
+        console.error("API Request Error:", error);
+      });
+  };
   return (
     <>
       <OrderTop />
@@ -26,7 +72,7 @@ export default function Order() {
             denir.{" "}
           </p>
         </div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <fieldset>
             <div className="product-size">
               <h3>
@@ -34,15 +80,30 @@ export default function Order() {
               </h3>
 
               <label>
-                <input type="radio" name="size" value="kucuk" />
+                <input
+                  type="radio"
+                  name="size"
+                  value="kucuk"
+                  onChange={handleChange}
+                />
                 Küçük
               </label>
               <label>
-                <input type="radio" name="size" value="orta" />
+                <input
+                  type="radio"
+                  name="size"
+                  value="orta"
+                  onChange={handleChange}
+                />
                 Orta
               </label>
               <label>
-                <input type="radio" name="size" value="buyuk" />
+                <input
+                  type="radio"
+                  name="size"
+                  value="buyuk"
+                  onChange={handleChange}
+                />
                 Büyük
               </label>
             </div>
@@ -51,7 +112,7 @@ export default function Order() {
               <h3 htmlFor="pastry">
                 Hamur Seç<span className="yildiz"> *</span>
               </h3>
-              <select id="pastry" name="pastry">
+              <select id="pastry" name="pastry" onChange={handleChange}>
                 <option value="" selected disabled hidden>
                   Hamur Kalınlığı
                 </option>
@@ -61,7 +122,7 @@ export default function Order() {
               </select>
             </div>
           </fieldset>
-          <div>
+          <div className="additions-container">
             <h3>Ek Malzemeler</h3>
             <p>
               En az 4, en fazla 10 malzeme seçebilirsiniz. (Her biri ekstra 5₺)
@@ -69,8 +130,14 @@ export default function Order() {
             <div className="checkbox-container">
               {malzemeler.map((malzeme, index) => (
                 <div className="additions" key={index}>
-                  <input type="checkbox" id={malzeme} name={malzeme} />
-                  <label className="checkbox-label" htmlFor={malzeme}>
+                  <input
+                    type="checkbox"
+                    id={`malzeme${index}`}
+                    name="malzeme"
+                    onChange={handleMalzemeler}
+                    value={malzeme}
+                  />
+                  <label className="checkbox-label" htmlFor={`malzeme${index}`}>
                     {malzeme}
                   </label>
                 </div>
@@ -86,6 +153,7 @@ export default function Order() {
                 name="name"
                 id="name"
                 placeholder="Siparişini teslim edebilmemiz için adını gir"
+                onChange={handleChange}
               />
             </div>
             <div className="note">
@@ -96,6 +164,7 @@ export default function Order() {
                 name="note"
                 id="note"
                 placeholder="Siparişine eklemek istediğin bir not var mı?"
+                onChange={handleChange}
               />
             </div>
           </section>
@@ -103,7 +172,7 @@ export default function Order() {
           <section className="order-spec">
             <div className="orderCount">
               <button>-</button>
-              <span>total sipariş</span>
+              <span>sayı</span>
               <button>+</button>
             </div>
             <div className="orderSum-container">
