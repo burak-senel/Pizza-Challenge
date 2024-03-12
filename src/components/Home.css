@@ -8,6 +8,8 @@ body{
    background-image: url("./Assets/mile1-assets/home-banner.png");
     height: 100vh; 
    background-size:cover;
+   background-position: center;
+   background-repeat: no-repeat; 
   }
   .hero-container{
     display: flex;
@@ -20,13 +22,12 @@ body{
 .hero-page p{
   font-size: 4.2rem;
   color: white;
+  margin-bottom: 2rem;
 }
 .hero-page button{
   background-color: #FDC913;
   border-radius: 2rem;
   border: 0;
-  padding: 0.8rem 2rem;
-  width: 7vw;
+padding: 1.5vh 2vw;
   text-align: center;
 }
-  
