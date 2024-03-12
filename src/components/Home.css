@@ -30,4 +30,27 @@ body{
   border: 0;
 padding: 1.5vh 2vw;
   text-align: center;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+.hero-page button:hover {
+  transform: scale(1.1); 
+  padding-right: 5.4vw;
+}.gif {
+  position: absolute;
+  top: 50%;
+  left: calc(50%); /* Butonun sağında, 10 piksel mesafede */
+  transform: translate(0, -50%);
+  width: 80px; /* İstediğiniz genişliği ayarlayın */
+  height: auto;
+  display: none;
+}
+
+.button:hover .gif {
+  display: block;
+}
+@media(max-width:768px){
+  .hero-page button:hover {
+    padding-right: 10.5vw;
+  }
 }
