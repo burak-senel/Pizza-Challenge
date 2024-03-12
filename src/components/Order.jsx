@@ -10,6 +10,7 @@ const initialForm = {
   malzeme: [],
   name: "",
   note: "",
+  price: 0,
 };
 const price = 85.5;
 //parseFloat(price)
@@ -22,6 +23,7 @@ export default function Order() {
     setAdditionPrice(formData.malzeme.length * 5);
     const calculatedPrice = (price + formData.malzeme.length * 5) * xPiece;
     setNewPrice(calculatedPrice);
+    setFormData((prevData) => ({ ...prevData, price: calculatedPrice }));
   }, [formData.malzeme, xPiece]);
 
   const handleChange = (event) => {
@@ -49,8 +51,7 @@ export default function Order() {
       .then((response) => {
         console.log("API Response:", response.data);
         setFormData(initialForm);
-        /*         history.push("/success");
-         */
+        history.push("/success");
       })
       .catch((error) => {
         console.error("API Request Error:", error);
