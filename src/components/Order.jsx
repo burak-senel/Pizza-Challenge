@@ -14,10 +14,17 @@ const initialForm = {
   additionPrice: 0,
   xPiece: 0,
 };
+const errorMessages = {
+  name: "En az üç karakter giriniz.",
+};
 const price = 85.5;
 //parseFloat(price)
 export default function Order() {
   const [formData, setFormData] = useState(initialForm);
+  const [errors, setErrors] = useState({
+    name: false,
+    malzeme: false,
+  });
   const [newPrice, setNewPrice] = useState(price);
   const [additionPrice, setAdditionPrice] = useState(0);
   const [xPiece, setxPiece] = useState(1);
@@ -55,6 +62,13 @@ export default function Order() {
     let { name, value } = event.target;
     const newState = { ...formData, [name]: value };
     setFormData(newState);
+    if (name == "name") {
+      if (value.trim().length >= 3) {
+        setErrors({ ...errors, [name]: false });
+      } else {
+        setErrors({ ...errors, [name]: true });
+      }
+    }
   };
   const handleMalzemeler = (event) => {
     const { value, checked } = event.target;
@@ -65,6 +79,11 @@ export default function Order() {
       yeniMalzemeler = formData.malzeme.filter((item) => item !== value);
     }
     setFormData({ ...formData, ["malzeme"]: yeniMalzemeler });
+    if (yeniMalzemeler.length >= 4 && yeniMalzemeler.length <= 10) {
+      setErrors({ ...errors, malzeme: false });
+    } else {
+      setErrors({ ...errors, malzeme: true });
+    }
   };
 
   const history = useHistory();
@@ -143,6 +162,7 @@ export default function Order() {
                   value="Küçük"
                   onChange={handleChange}
                   checked={formData.size == "Küçük"}
+                  data-cy="size-kucuk"
                 />
                 Küçük
               </label>
@@ -153,6 +173,7 @@ export default function Order() {
                   value="Orta"
                   onChange={handleChange}
                   checked={formData.size == "Orta"}
+                  data-cy="size-orta"
                 />
                 Orta (+15₺)
               </label>
@@ -163,6 +184,7 @@ export default function Order() {
                   value="Büyük"
                   onChange={handleChange}
                   checked={formData.size == "Büyük"}
+                  data-cy="size-buyuk"
                 />
                 Büyük (+25₺)
               </label>
@@ -177,6 +199,7 @@ export default function Order() {
                 id="pastry"
                 name="pastry"
                 onChange={handleChange}
+                data-cy="pastry"
               >
                 <option value="" selected disabled hidden>
                   Hamur Kalınlığı
@@ -188,10 +211,14 @@ export default function Order() {
             </div>
           </fieldset>
           <div className="additions-container">
-            <h3>Ek Malzemeler</h3>
+            <h3>
+              Ek Malzemeler<span className="yildiz"> *</span>
+            </h3>
 
-            <p>
-              En az 4, en fazla 10 malzeme seçebilirsiniz. (Her biri ekstra 5₺)
+            <p style={{ color: errors.malzeme ? "#CE2829" : "inherit" }}>
+              <span style={{ fontWeight: "400" }}>En az</span> 4,{" "}
+              <span style={{ fontWeight: "400" }}>en fazla</span> 10 malzeme
+              seçebilirsiniz. (Her biri ekstra 5₺)
             </p>
 
             <div className="checkbox-container">
@@ -204,6 +231,7 @@ export default function Order() {
                     onChange={handleMalzemeler}
                     value={malzeme}
                     checked={formData.malzeme.includes(malzeme)}
+                    data-cy={`malzeme-${index}`}
                   />
 
                   <label className="checkbox-label" htmlFor={`malzeme${index}`}>
@@ -216,7 +244,9 @@ export default function Order() {
           <section className="infos">
             <div className="name">
               {" "}
-              <h3>Adınız:</h3>
+              <h3>
+                Adınız:<span className="yildiz"> *</span>
+              </h3>
               <input
                 type="text"
                 name="name"
@@ -224,7 +254,11 @@ export default function Order() {
                 placeholder="Siparişini teslim edebilmemiz için adını gir"
                 onChange={handleChange}
                 value={formData.name}
+                data-cy="name"
               />
+              <p style={{ color: "#CE2829" }}>
+                {errors.name && errorMessages.name}
+              </p>
             </div>
 
             <div className="note">
@@ -237,6 +271,7 @@ export default function Order() {
                 placeholder="Siparişine eklemek istediğin bir not var mı?"
                 onChange={handleChange}
                 value={formData.note}
+                data-cy="note"
               />
             </div>
           </section>
@@ -273,7 +308,7 @@ export default function Order() {
                   </div>
                 </div>
               </div>
-              <button disabled={!isValid} className="order-button">
+              <button disabled={!isValid} className="order-button" data-cy="order-button">
                 SİPARİŞ VER
               </button>
             </div>

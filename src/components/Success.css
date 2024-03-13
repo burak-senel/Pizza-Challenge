@@ -58,9 +58,13 @@
   @keyframes slideIn {
    0% {
       left: -150%;
+      transform: translateY(-35%)
     }
+
     100%{
         left:250%;
+        transform: translateY(-35%)
+
     }
   }
   .pizzaboy.finished {
