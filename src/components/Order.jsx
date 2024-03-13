@@ -150,7 +150,7 @@ export default function Order() {
         </div>
         <form onSubmit={handleSubmit}>
           <fieldset>
-            <div className="product-size">
+            <div id="sizeTEST" className="product-size">
               <h3>
                 Boyut Seç<span className="yildiz"> *</span>
               </h3>
@@ -221,7 +221,7 @@ export default function Order() {
               seçebilirsiniz. (Her biri ekstra 5₺)
             </p>
 
-            <div className="checkbox-container">
+            <div id="checkboxes" className="checkbox-container">
               {malzemeler.map((malzeme, index) => (
                 <div className="additions" key={index}>
                   <input
@@ -231,7 +231,7 @@ export default function Order() {
                     onChange={handleMalzemeler}
                     value={malzeme}
                     checked={formData.malzeme.includes(malzeme)}
-                    data-cy={`malzeme-${index}`}
+                    data-cy={`malzeme-${malzeme}`}
                   />
 
                   <label className="checkbox-label" htmlFor={`malzeme${index}`}>
@@ -308,7 +308,11 @@ export default function Order() {
                   </div>
                 </div>
               </div>
-              <button disabled={!isValid} className="order-button" data-cy="order-button">
+              <button
+                disabled={!isValid}
+                className="order-button"
+                data-cy="order-button"
+              >
                 SİPARİŞ VER
               </button>
             </div>
