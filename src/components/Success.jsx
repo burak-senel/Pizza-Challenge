@@ -1,8 +1,32 @@
 import { useLocation } from "react-router-dom";
 import "./Success.css";
+import { useEffect, useRef, useState } from "react";
+import Lottie from "lottie-web";
+import pizzaLottie from "./pizzaLottie.json";
 export default function Success() {
   const location = useLocation();
   const { responseData } = location.state;
+  const container = useRef(null);
+  const [animationFinished, setAnimationFinished] = useState(false);
+  useEffect(() => {
+    const anim = Lottie.loadAnimation({
+      container: container.current,
+      renderer: "svg",
+      loop: false,
+      autoplay: true,
+      animationData: pizzaLottie,
+      rendererSettings: {
+        preserveAspectRatio: "xMidYMid slice",
+      },
+    });
+
+    anim.addEventListener("complete", () => {
+      setAnimationFinished(true);
+    });
+
+    return () => anim.destroy();
+  }, []);
+
   return (
     <section className="success">
       <div className="success-container">
@@ -51,6 +75,11 @@ export default function Success() {
             </div>
           </div>
         </section>
+        <div
+          className={`pizzaboy ${animationFinished ? "finished" : ""}`}
+          ref={container}
+          style={{ width: "25%" }}
+        />
       </div>
     </section>
   );

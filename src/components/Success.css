@@ -50,6 +50,22 @@
 .success-totalShow *{
     font-weight: 500;
 }
+.pizzaboy {
+    position: relative;
+    animation: slideIn 7s forwards;
+  }
+  
+  @keyframes slideIn {
+   0% {
+      left: -150%;
+    }
+    100%{
+        left:250%;
+    }
+  }
+  .pizzaboy.finished {
+    display: none;
+  }
 @media screen and (max-width:1250px){
 .success-container{
     width: 35vw;
