@@ -11,6 +11,7 @@ const initialForm = {
   name: "",
   note: "",
   price: 0,
+  additionPrice: 0,
 };
 const price = 85.5;
 //parseFloat(price)
@@ -23,7 +24,11 @@ export default function Order() {
     setAdditionPrice(formData.malzeme.length * 5);
     const calculatedPrice = (price + formData.malzeme.length * 5) * xPiece;
     setNewPrice(calculatedPrice);
-    setFormData((prevData) => ({ ...prevData, price: calculatedPrice }));
+    setFormData((prevData) => ({
+      ...prevData,
+      price: calculatedPrice,
+      additionPrice: additionPrice,
+    }));
   }, [formData.malzeme, xPiece]);
 
   const handleChange = (event) => {
@@ -51,7 +56,7 @@ export default function Order() {
       .then((response) => {
         console.log("API Response:", response.data);
         setFormData(initialForm);
-        history.push("/success");
+        history.push("/success", { responseData: response.data });
       })
       .catch((error) => {
         console.error("API Request Error:", error);
@@ -102,9 +107,9 @@ export default function Order() {
                 <input
                   type="radio"
                   name="size"
-                  value="kucuk"
+                  value="Küçük"
                   onChange={handleChange}
-                  checked={formData.size == "kucuk"}
+                  checked={formData.size == "Küçük"}
                 />
                 Küçük
               </label>
@@ -112,9 +117,9 @@ export default function Order() {
                 <input
                   type="radio"
                   name="size"
-                  value="orta"
+                  value="Orta"
                   onChange={handleChange}
-                  checked={formData.size == "orta"}
+                  checked={formData.size == "Orta"}
                 />
                 Orta
               </label>
@@ -122,9 +127,9 @@ export default function Order() {
                 <input
                   type="radio"
                   name="size"
-                  value="buyuk"
+                  value="Büyük"
                   onChange={handleChange}
-                  checked={formData.size == "buyuk"}
+                  checked={formData.size == "Büyük"}
                 />
                 Büyük
               </label>
@@ -143,9 +148,9 @@ export default function Order() {
                 <option value="" selected disabled hidden>
                   Hamur Kalınlığı
                 </option>
-                <option value="thin">İnce</option>
-                <option value="standard">Standart</option>
-                <option value="thick">Kalın</option>
+                <option value="İnce">İnce</option>
+                <option value="Standart">Standart</option>
+                <option value="Kalın">Kalın</option>
               </select>
             </div>
           </fieldset>
