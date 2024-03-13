@@ -38,7 +38,7 @@ export default function Success() {
         <p className="order-oyw">lezzetin yolda</p>
         <p className="order-completed">SİPARİŞ ALINDI</p>
         <span className="seperator-success"></span>
-        <h3>Position Absolute Pizza</h3>
+        <h3>{responseData.xPiece} adet Position Absolute Pizza</h3>
         <div className="success-spec">
           <p>
             Boyut:{" "}

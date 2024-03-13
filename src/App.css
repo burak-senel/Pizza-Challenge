@@ -155,6 +155,9 @@ input[type="text"] {
 .minus{    padding: 1rem;
     border-radius: 5px 0px 0px 5px; background-color: #FDC913;border: 0px;
 }
+button.minus[disabled]{
+    opacity: 0.5;
+}
 .plus{
     padding: 1rem;
     border-radius: 0px 5px 5px 0px; background-color: #FDC913;border: 0px;
@@ -168,4 +171,14 @@ input[type="text"] {
     font-weight:  600px;
 }
 
-
+@media (max-width:1000px){
+   
+    .main-section{
+        width: 70%;
+    }
+    .order-spec{
+        flex-direction: column;
+        align-items: center;
+    }
+   
+}

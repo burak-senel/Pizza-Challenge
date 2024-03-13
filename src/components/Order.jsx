@@ -12,6 +12,7 @@ const initialForm = {
   note: "",
   price: 0,
   additionPrice: 0,
+  xPiece: 0,
 };
 const price = 85.5;
 //parseFloat(price)
@@ -20,16 +21,35 @@ export default function Order() {
   const [newPrice, setNewPrice] = useState(price);
   const [additionPrice, setAdditionPrice] = useState(0);
   const [xPiece, setxPiece] = useState(1);
+  const [isValid, setIsValid] = useState(false);
+  const [sizePrice, setSizePrice] = useState(0);
+
   useEffect(() => {
     setAdditionPrice(formData.malzeme.length * 5);
-    const calculatedPrice = (price + formData.malzeme.length * 5) * xPiece;
+    const calculatedPrice =
+      (sizePrice + price + formData.malzeme.length * 5) * xPiece;
     setNewPrice(calculatedPrice);
     setFormData((prevData) => ({
       ...prevData,
       price: calculatedPrice,
       additionPrice: additionPrice,
+      xPiece: xPiece,
     }));
-  }, [formData.malzeme, xPiece]);
+  }, [formData.malzeme, xPiece, sizePrice]);
+
+  const validateForm = () => {
+    return (
+      formData.name.trim().length >= 3 &&
+      formData.pastry &&
+      formData.size &&
+      formData.malzeme.length >= 4 &&
+      formData.malzeme.length <= 10
+    );
+  };
+
+  useEffect(() => {
+    setIsValid(validateForm());
+  }, [formData]);
 
   const handleChange = (event) => {
     let { name, value } = event.target;
@@ -50,7 +70,7 @@ export default function Order() {
   const history = useHistory();
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    if (!isValid) return;
     axios
       .post("https://reqres.in/api/pizza", formData)
       .then((response) => {
@@ -62,6 +82,19 @@ export default function Order() {
         console.error("API Request Error:", error);
       });
   };
+  const handleSizePrice = () => {
+    if (formData.size === "Büyük") {
+      setSizePrice(35);
+    } else if (formData.size === "Orta") {
+      setSizePrice(25);
+    } else if (formData.size === "Küçük") {
+      setSizePrice(0);
+    }
+  };
+
+  useEffect(() => {
+    handleSizePrice(formData.size);
+  }, [formData.size]);
 
   const handlePricePlus = () => {
     setxPiece(xPiece + 1);
@@ -121,7 +154,7 @@ export default function Order() {
                   onChange={handleChange}
                   checked={formData.size == "Orta"}
                 />
-                Orta
+                Orta (+15₺)
               </label>
               <label>
                 <input
@@ -131,7 +164,7 @@ export default function Order() {
                   onChange={handleChange}
                   checked={formData.size == "Büyük"}
                 />
-                Büyük
+                Büyük (+25₺)
               </label>
             </div>
 
@@ -214,6 +247,7 @@ export default function Order() {
                 type="button"
                 onClick={handlePriceMinus}
                 className="minus"
+                disabled={xPiece === 1}
               >
                 -
               </button>
@@ -239,7 +273,9 @@ export default function Order() {
                   </div>
                 </div>
               </div>
-              <button className="order-button">SİPARİŞ VER</button>
+              <button disabled={!isValid} className="order-button">
+                SİPARİŞ VER
+              </button>
             </div>
           </section>
         </form>

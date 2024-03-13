@@ -1,7 +1,7 @@
+
 .success{
     background-color:  #CE2829;
     height: 100dvh;
-    
 }
 .success-container{
     width: 30dvw;
@@ -69,6 +69,8 @@
 @media screen and (max-width:1250px){
 .success-container{
     width: 35vw;
+}.success{
+    height: 100%;
 }
 }
 @media screen and (max-width:1100px){
@@ -84,4 +86,6 @@
             .success-container{
                 width:80vw;
             }
+            
             }
+            

@@ -11,7 +11,7 @@ export default function Home() {
       <div className="hero-container">
         <img className="logo" src="./Assets/mile1-assets/logo.svg" alt="Logo" />
         <p style={{ fontFamily: "Barlow Condensed", fontWeight: "100" }}>
-          KOD ACIKTIRIR <br /> PIZZA DOYURUR
+          KOD ACIKTIRIR <br /> PIZZA, DOYURUR
         </p>
         <Link to="./OrderPizza" className="button-link">
           <button
