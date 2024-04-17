@@ -3,6 +3,8 @@ import "./Success.css";
 import { useEffect, useRef, useState } from "react";
 import Lottie from "lottie-web";
 import pizzaLottie from "./pizzaLottie.json";
+import logo from "../Assets/mile1-assets/logo.svg";
+
 export default function Success() {
   const location = useLocation();
   const { responseData } = location.state;
@@ -30,11 +32,7 @@ export default function Success() {
   return (
     <section className="success">
       <div className="success-container">
-        <img
-          className="logo-success"
-          src="./Assets/mile1-assets/logo.svg"
-          alt="Logo"
-        />
+        <img className="logo-success" src={logo} alt="Logo" />
         <p className="order-oyw">lezzetin yolda</p>
         <p className="order-completed">SİPARİŞ ALINDI</p>
         <span className="seperator-success"></span>
